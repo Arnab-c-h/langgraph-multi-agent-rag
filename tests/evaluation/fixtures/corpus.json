@@ -1,0 +1,52 @@
+[
+  {
+    "chunk_id": "00000000-0000-0000-0000-000000000101",
+    "source_id": "00000000-0000-0000-0000-000000000201",
+    "source_type": "pdf",
+    "source_title": "Synthetic Operations Guide",
+    "content": "Original uploaded PDF binaries are temporary. Extracted chunks and page provenance are durable in local SQLite, while embeddings are durable in local Chroma.",
+    "supporting_excerpt": "Original uploaded PDF binaries are temporary. Extracted chunks and page provenance are durable in local SQLite, while embeddings are durable in local Chroma.",
+    "locator": "page 2 — Retention",
+    "source_path": "synthetic-operations-guide.pdf",
+    "metadata": {"page": 2, "heading": "Retention"},
+    "provenance": {"fixture": "pdf-page-segment", "page": 2}
+  },
+  {
+    "chunk_id": "00000000-0000-0000-0000-000000000102",
+    "source_id": "00000000-0000-0000-0000-000000000202",
+    "source_type": "web",
+    "source_title": "Synthetic Web Safety Guide",
+    "content": "Web ingestion accepts one public HTTP or HTTPS URL, blocks private network addresses and unsafe redirects, and never performs a recursive crawl.",
+    "supporting_excerpt": "Web ingestion accepts one public HTTP or HTTPS URL, blocks private network addresses and unsafe redirects, and never performs a recursive crawl.",
+    "locator": "https://fixtures.invalid/web-safety — Network safety",
+    "source_url": "https://fixtures.invalid/web-safety",
+    "metadata": {"heading": "Network safety"},
+    "provenance": {"fixture": "web-section", "final_url": "https://fixtures.invalid/web-safety"}
+  },
+  {
+    "chunk_id": "00000000-0000-0000-0000-000000000103",
+    "source_id": "00000000-0000-0000-0000-000000000203",
+    "source_type": "github",
+    "source_title": "synthetic/repository",
+    "content": "Repository ingestion rejects symlinks, submodules, binary files, vendor directories, oversized blobs, and sensitive configuration names before download.",
+    "supporting_excerpt": "Repository ingestion rejects symlinks, submodules, binary files, vendor directories, oversized blobs, and sensitive configuration names before download.",
+    "locator": "src/ingestion_policy.md — Repository safety",
+    "source_url": "https://github.com/synthetic/repository",
+    "source_path": "src/ingestion_policy.md",
+    "metadata": {"path": "src/ingestion_policy.md", "heading": "Repository safety"},
+    "provenance": {"fixture": "github-file", "commit": "0123456789abcdef"}
+  },
+  {
+    "chunk_id": "00000000-0000-0000-0000-000000000104",
+    "source_id": "00000000-0000-0000-0000-000000000203",
+    "source_type": "github",
+    "source_title": "synthetic/repository",
+    "content": "Provider calls retry at most two times and return a stable public error without logging credentials or hidden reasoning.",
+    "supporting_excerpt": "Provider calls retry at most two times and return a stable public error without logging credentials or hidden reasoning.",
+    "locator": "src/retry_policy.md — Provider retries",
+    "source_url": "https://github.com/synthetic/repository",
+    "source_path": "src/retry_policy.md",
+    "metadata": {"path": "src/retry_policy.md", "heading": "Provider retries"},
+    "provenance": {"fixture": "github-file", "commit": "0123456789abcdef"}
+  }
+]

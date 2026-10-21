@@ -1,0 +1,65 @@
+[project]
+name = "langgraph-multi-agent-rag"
+version = "0.1.0"
+description = "Single-user, grounded multi-agent RAG application"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "a2a-sdk[http-server]>=0.2.0",
+    "aiosqlite>=0.20.0,<1.0.0",
+    "chromadb>=1.0.0,<2.0.0",
+    "fastapi>=0.115.0,<1.0.0",
+    "gradio>=5.0.0,<7.0.0",
+    "httpx>=0.27.0,<1.0.0",
+    "langchain>=0.3.0,<2.0.0",
+    "langchain-chroma>=0.2.0,<2.0.0",
+    "langchain-google-genai>=2.0.0,<4.0.0",
+    "langchain-text-splitters>=0.3.0,<2.0.0",
+    "langgraph>=0.2.0,<2.0.0",
+    "langgraph-checkpoint-sqlite>=2.0.0,<4.0.0",
+    "platformdirs>=4.3.0,<5.0.0",
+    "pydantic>=2.9.0,<3.0.0",
+    "pydantic-settings>=2.6.0,<3.0.0",
+    "SQLAlchemy>=2.0.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "docling>=2.0.0,<3.0.0",
+    "PyGithub>=2.4.0,<3.0.0",
+    "trafilatura>=2.0.0,<3.0.0",
+]
+dev = [
+    "mypy>=1.13.0,<2.0.0",
+    "pytest>=8.3.0,<9.0.0",
+    "pytest-asyncio>=0.24.0,<1.0.0",
+    "pytest-cov>=6.0.0,<7.0.0",
+    "ruff>=0.8.0,<1.0.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.26.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rag_app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "evaluation: deterministic offline acceptance evaluation",
+    "integration: local component and restart integration coverage",
+    "smoke: requires an explicit provider or local-service opt-in",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]

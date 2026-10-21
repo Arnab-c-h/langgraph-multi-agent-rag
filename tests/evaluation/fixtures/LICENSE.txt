@@ -1,0 +1,5 @@
+The synthetic fixture corpus in this directory was authored for this project
+and is dedicated to the public domain under CC0 1.0.
+
+It contains no copied documentation, personal data, credentials, or production
+content.
