@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: ["codex/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.8.13"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install locked development environment
+        run: uv sync --frozen --extra dev
+
+      - name: Unit, local integration, API, A2A, UI, evaluation, and default-skipped smoke
+        run: uv run --frozen --extra dev pytest -q
+
+      - name: Ruff
+        run: uv run --frozen --extra dev ruff check .
+
+      - name: Strict mypy
+        run: uv run --frozen --extra dev mypy src
+
+      - name: Local deployment, forbidden-runtime, and secret-pattern checks
+        run: uv run --frozen --extra dev python scripts/verify_repository.py all --root .
+
+      - name: Lockfile is current
+        run: uv lock --check
+
+      - name: Build wheel and verify packaged import
+        run: |
+          uv build --wheel
+          python -m venv .package-check
+          uv pip install --python .package-check/bin/python --no-deps dist/*.whl
+          .package-check/bin/python -c "import rag_app; print(rag_app.__name__)"
+          uv run --frozen --extra dev python -c "import rag_app.main; print(rag_app.main.app.title)"
+
+      - name: Diff hygiene
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            base="$(git merge-base HEAD "origin/$BASE_REF")"
+          elif git cat-file -e "${PUSH_BEFORE}^{commit}" 2>/dev/null; then
+            base="$PUSH_BEFORE"
+          else
+            base="$(git rev-parse HEAD^)"
+          fi
+          git diff --check "$base"...HEAD
